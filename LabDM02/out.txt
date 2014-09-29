@@ -1,0 +1,50 @@
+Коряковцев Алишер, ИУ8-34
+
+Лабораторная работа #1 по предмету "Дискретная Математика"
+
+"Пересечение множеств"
+
+A\X=B
+
+
+ 
+ARRAY X [0 additional chars]:
+{
+	( e ), 	( g ) 
+}
+ARRAY X [1 additional chars]:
+{
+	( e ), 	( g ), 	( x ) 
+}
+ARRAY X [2 additional chars]:
+{
+	( e ), 	( g ), 	( F ), 	( B ) 
+}
+ARRAY X [3 additional chars]:
+{
+	( e ), 	( g ), 	( 7 ), 	( J ), 	( m ) 
+}
+ARRAY X [4 additional chars]:
+{
+	( e ), 	( g ), 	( z ), 	( R ), 	( h ), 	( 6 ) 
+}
+ARRAY X [5 additional chars]:
+{
+	( e ), 	( g ), 	( T ), 	( A ), 	( P ), 	( B ), 	( q ) 
+}
+ARRAY X [6 additional chars]:
+{
+	( e ), 	( g ), 	( M ), 	( G ), 	( 8 ), 	( 6 ), 	( j ), 	( 6 ) 
+}
+ARRAY X [7 additional chars]:
+{
+	( e ), 	( g ), 	( Q ), 	( I ), 	( z ), 	( H ), 	( X ), 	( L ), 	( K ) 
+}
+ARRAY X [8 additional chars]:
+{
+	( e ), 	( g ), 	( r ), 	( p ), 	( N ), 	( f ), 	( C ), 	( H ), 	( u ), 	( k ) 
+}
+ARRAY X [9 additional chars]:
+{
+	( e ), 	( g ), 	( R ), 	( Q ), 	( G ), 	( U ), 	( z ), 	( 9 ), 	( 3 ), 	( J ), 	( I ) 
+}
