@@ -38,17 +38,24 @@ namespace LabAPL2
             int i=k-1,u,iOld = 0;
             do {
                 //if we are on space character
-                if (i >= input.Length)
-                    i = input.Length - 1;
+                if (i >= input.Length) {
+                    //shift backwards
+                    i = input.Length;
+                    if(iOld>0)
+                        --iOld; 
+                }
+                   
                 //we are in word
                 else
                 {
                     int state = 0;
                     // reading up to last space character
-                    while (i < input.Length && state != 2)
-                    {
-                        switch (state)
+                   
+                    if(!Char.IsSeparator(input[i]))
+                        while (i < input.Length && state != 2)
                         {
+                            switch (state)
+                            {
                             case 0:
                                 if (Char.IsSeparator(input[i]))
                                     state = 1;
@@ -57,10 +64,11 @@ namespace LabAPL2
                                 if (!Char.IsSeparator(input[i]))
                                     state = 2;
                                 break;
-                        }
+                            }
                         ++i;
-                    }
-                    --i;
+                        }
+                    if(state==2)
+                        --i;
                         
                 }
                     
@@ -70,7 +78,7 @@ namespace LabAPL2
                 Console.WriteLine( subs );
                 iOld = i;
                 i+=k;
-            } while(i < input.Length);
+            } while(i <= input.Length);
             Console.ReadKey();
             
         }
