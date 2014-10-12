@@ -5,11 +5,18 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabAPL2", "LabAPL2\LabAPL2.csproj", "{760A511D-ACF9-46AB-AD7C-1E242520A934}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM1", "LabDM1\LabDM1.vcxproj", "{B5A8D9E1-7EAD-42E0-BFF3-A88044F13F0E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM11", "LabDM1\LabDM1.vcxproj", "{B5A8D9E1-7EAD-42E0-BFF3-A88044F13F0E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM12", "LabDM02\LabDM02.vcxproj", "{8DF96F5A-8886-4986-8019-ABC5C459A798}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM21", "LabDM21\LabDM21.vcxproj", "{4B9F276F-E81C-4322-8F92-6ECC0D3EC2E8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM2", "LabDM21\LabDM21.vcxproj", "{4B9F276F-E81C-4322-8F92-6ECC0D3EC2E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FDF27080-B20B-4E70-B40B-A6390BE716D5}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials-Settings.json = WebEssentials-Settings.json
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LabDM3", "LabDM3\LabDM3.vcxproj", "{F741627A-383F-4138-929F-005BF9A9C8CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +75,18 @@ Global
 		{4B9F276F-E81C-4322-8F92-6ECC0D3EC2E8}.Release|Win32.Build.0 = Release|Win32
 		{4B9F276F-E81C-4322-8F92-6ECC0D3EC2E8}.Release|x86.ActiveCfg = Release|Win32
 		{4B9F276F-E81C-4322-8F92-6ECC0D3EC2E8}.Release|x86.Build.0 = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|Win32.Build.0 = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|x86.ActiveCfg = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Debug|x86.Build.0 = Debug|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|Win32.ActiveCfg = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|Win32.Build.0 = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|x86.ActiveCfg = Release|Win32
+		{F741627A-383F-4138-929F-005BF9A9C8CE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

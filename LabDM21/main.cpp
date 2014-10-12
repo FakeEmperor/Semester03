@@ -4,143 +4,209 @@
 #include <conio.h>
 #include <stdio.h>
 #include <Windows.h>
+#include <math.h>
 #include <time.h>
 
-#define MAX_N 1000
-#define MAX_ARRAYS 10
+//OBJECTIVE-C style code
+typedef struct BooleanFunction {
+	unsigned char* func;
+	size_t num_bits;
+	bool status; //false - not working, true - working
 
-void fail(const char* str){
+	BooleanFunction() {
+		status = false;
+		func = NULL;
+		this->num_bits = 0;
+	};
+	BooleanFunction(const char* str){
+		size_t i, u, nn;
+		size_t s = strlen(str);
+		double n = (double)s / CHAR_BIT;
+		nn = (size_t)(ceil(n));
+		this->num_bits = s;
+		func = new unsigned char[nn+1];
+		//from left to right ( last bit in memory - first bit in real function set )
+		for (i = 0; i < nn ; ++i){
+			func[i] = 0;
+			for (u = 0; u < CHAR_BIT && s > i*CHAR_BIT+u; ++u)
+					func[i] |= ((str[i*CHAR_BIT + u] - '0') << (CHAR_BIT - 1 - u));
+
+		};
+		func[nn] = 0;
+		status = 1;
+
+	};
+	~BooleanFunction(){
+		delete func;
+	};
+
+	// true - in range, false - out of range
+	bool checkX(size_t x) {
+		return 1 << x <= num_bits;
+	};
+	//-1 - b1 < b2, 0 - b1 == b2, 1 - b1 > b2 
+	char getBit(size_t b) {
+		return (func[ b/CHAR_BIT ] & (1 << (CHAR_BIT - b%CHAR_BIT - 1))) >> (CHAR_BIT - b%CHAR_BIT - 1);
+	};
+	char compareBits(size_t b1, size_t b2) {
+		char _b1 = getBit(b1),
+			_b2 = getBit(b2);
+		if (_b1 > _b2)
+			return 1;
+		else if (_b1 < _b2)
+			return -1;
+		return 0;
+	};
+
+	size_t getNeighboor( size_t b , size_t x){
+		return b ^ (1 << x-1);
+	};
+	// -1 - error, 0 - false, 1 - true
+
+	int checkImportance(size_t x) {
+		if (!checkX(x))
+			return -1;
+		size_t half = num_bits;
+		for (size_t i = 0; i < half; ++i)
+			if (compareBits(i, getNeighboor(i, x)))
+				return 1;
+		return 0;
+	};
+	int checkMonotoneness(size_t x) {
+		if (!checkX(x))
+			return -1;
+		size_t half = num_bits, nb;
+		int val;
+		for (size_t i = 0; i < half; ++i) {
+			nb = getNeighboor(i, x);
+			val = compareBits(i, nb);
+			if ((val > 0 && i < nb) || (i > nb && val < 0))
+				return 0;
+		}
+				return 1;
+		return 0;
+	};
+	int checkLinearity(size_t x){
+		if (!checkX(x))
+			return -1;
+		size_t half = num_bits ;
+		for (size_t i = 0; i < half; ++i){
+			if (!compareBits(i, getNeighboor(i, x)))
+				return 0;
+		}
+		return 1;
+	};
+	void checkAll(bool valar[3], size_t x, bool checkL = true, bool checkI = true, bool checkM = true) {
+
+	};
+
+} BooleanFunction;
+
+
+void fail(const char* str, bool close = true){
 	puts(str);
-	getch();
-	exit(1);
+	if (close){
+		getch();
+		exit(1);
+	}	
 }
-
-
-BOOL RAND_INITED = FALSE;
-int random(const int max){
-	if(!RAND_INITED) {
-		srand(time(NULL));
-		RAND_INITED = TRUE;
-	}
-	return rand()%max;
-};
-
-
-void read_array(const char* buf, char Arr[MAX_N], const size_t control_num, const char* array_name){
-	size_t i,s,cnt = 0;
-
-	while (*buf){
-		if (isalnum(*buf)) {
-			Arr[cnt] = *buf;
-			++cnt;
-		}
-		++buf;
-	}
-	Arr[cnt] = 0;
-	if (strlen(Arr) != control_num) {
-		printf("Array \"%s\" has %d elements, while expected %d. %s\n", array_name, strlen(Arr), control_num, (strlen(Arr) > control_num) ? "" : "Closing...\n");
-		if (strlen(Arr) < control_num){
-			getch();
-			exit(1);
-		}
-	}
-	//next post process
-	s = strlen(Arr);
-	for( i=0; i<s-1; ++i)
-		if(strchr(Arr+i+1, Arr[i]))
-			printf("Array \"%s\" has duplicate element - %c\r\n",array_name, Arr[i]);
-
-}
-
-void file_input(FILE* file, char* header, char A[MAX_N], char B[MAX_N]  ){
-	char buf[256];
-	int a, b, inc = 0, num_success;
-	header[0] = 0;
-	do{
-		fgets(buf, MAX_N, file);
-		strcat(header, buf);
-		if(!strcmp(buf, "\n"))
-			inc++;
-		else
-			inc = 0;
-	} while(inc<2);
-	//read the numbers
-	num_success = fscanf(file, "%d %d", &a, &b);
-	if (num_success < 2)
-		fail("Failed to read array sizes from input string. Closing...");
-	fgets(buf, 256, file);
-	fgets(buf, 256, file); //array a
-	read_array(buf, A, a, "A");
-	fgets(buf, 256, file); //array b
-	read_array(buf, B, b, "B");
-};
-
 void addchar(char* str, const char ch){
 	size_t pos = strlen(str);
-	str[pos] =ch;
-	str[pos+1] = 0;
+	str[pos] = ch;
+	str[pos + 1] = 0;
 };
-
-// A\X = B
-// X = A\B+(Something not A)
-void xor_magic(const char A[MAX_N], const char B[MAX_N], char C[MAX_ARRAYS][MAX_N]) {
-	size_t pos, s = strlen(A), i = 0, u = 0, offset;
-	unsigned char ch;
-	for(; i<MAX_ARRAYS; ++i){
-		//build array
-		*C[i] = 0;
-		for( u = 0; u<s; ++u)
-			if(!strchr(B , A[u])) 
-				addchar(C[i],A[u]);
-		//add something not
-		u = 0;
-		while(u<i){
-			ch = random(256);
-			if( isalnum(ch)&&!strchr(A, ch)) {
-				addchar(C[i],ch);
-				++u;
-			}			
-		};
-	}
-};
-
-void file_output(FILE* file, const char* header,const char C[MAX_ARRAYS][MAX_N]){
-	size_t i, u, s;
-	//header print
-	fprintf(file,"%s \n", header);
-	//post header/pre array
-	//array
-
-	for( i = 0; i<MAX_ARRAYS; ++i ){
-		fprintf(file ,"ARRAY X [%d additional chars]:\n", i);
-		fputs("{\n", file);
-		s = strlen(C[i]);
-		for (u = 0; u < s; u++){
-			fprintf(file,"\t( %c )%s ", C[i][u], u < s - 1 ? "," : "");
+size_t file_input(FILE* file, char** input, char** task ){
+	size_t num;
+	size_t i, s;
+	char buf[256];
+	if (!fscanf(file, "%d", &num ))
+		fail("Failed to read number of arguments. Closing...");
+	fgets(buf, 256, file);
+	do {
+		fgets(buf, 256, file);
+		s = strlen(buf);
+		if (!*input) {
+			*input = (char*)realloc(*input, s + 1);
+			*input[0] = 0;
 		}
-		//post array
-		fputs("\n}\n", file);
+		else
+			*input = (char*)realloc(*input, strlen(*input) + s + 1);
+		//copy to task
+		if (!*task) {
+			*task = (char*)realloc(*task, s + 1);
+			*task[0] = 0;
+		}
+		else
+			*task = (char*)realloc(*task, strlen(*task) + s + 1);
+		strcat(*task + strlen(*task), buf);
+		//slow
+		for (i = 0; i < s; ++i)
+			if (buf[i]=='1'||buf[i]=='0')
+				addchar(*input, buf[i]);
+
+		buf[0] = 0;
+	} 
+	while (!feof(file));
+	if (strlen(*input) != 1 << num)
+		fail("Number of arguments does not match number of bits, that have been read by the program. Closing...");
+	return num;
+};
+
+void file_output(FILE* file, const char* header, const char* input, const bool * const props[3]  , const size_t num_arguments){
+	fprintf(file, "%s\r\n%d\r\n%s\r\n", header, num_arguments, input);
+	fputs("\t (существенность, монотонность, линейность)\r\n", file);
+	size_t l = 0, m = 0;
+	for (size_t i = 0; i < num_arguments; ++i) {
+		fprintf(file, "x%d\t%c\t%c\t%c\r\n", (i + 1), (props[i][0] ? '+' : '-'), (props[i][1] ? '+' : '-'), (props[i][2] ? '+' : '-'));
+		if (props[i][2] || !props[i][0])
+			l++;
+		if (props[i][1] || !props[i][0])
+			m++;
 	}
+	fprintf(file, "%sмонотонна, %sлинейна", (m == num_arguments ? "" : "не"), (l == num_arguments ? "" : "не"));
 	
 };
 
 
 
-int main(){
-	char A[MAX_N], B[MAX_N], C[MAX_ARRAYS][MAX_N];
-	bool F[MAX_N];
+int main(int argc, char** argv){
+	const char* header = "Коряковцев Алишер, ИУ8-34\r\n"
+						 "Выявление существенности, линейности и монотонности булевых функций\r\n"
+						 "по переменным с использованием побитовых операций.";
+	char* input = NULL, *task = NULL;
+	bool **props;
+	FILE *in, *out;
+	size_t num_arguments;
+	BooleanFunction *f;
 
-	char header[MAX_N];
-	FILE *input, *output;
-	input = fopen("in.txt", "r");
-	output = fopen("out.txt", "w");
-	if (!input)
+	if (argc < 3) {
+		fail("Arguments to the program are: {input file path} {output file path}. Trying to apply defaults...", false);
+		in = fopen("in.txt", "r");
+		out = fopen("out.txt", "w");
+		
+	}
+	else {
+		in = fopen(argv[1], "r");
+		out = fopen(argv[2], "w");
+	}
+
+	if (!in)
 		fail("Failed to open input file. Closing...");
-	if (!output)
+	if (!out)
 		fail("Failed to open output file for writing. Closing...");
-	file_input(input, header,A,B );
-	xor_magic(A,B,C);
-	file_output(output, header, C);
+	
+	num_arguments = file_input(in, &input, &task);
+	f = new BooleanFunction(input);
+	props = new bool*[num_arguments];
+
+	for (size_t i = 0; i < num_arguments; ++i) {
+		props[i] = new bool[3];
+		props[i][0] = f->checkImportance(i+1);
+		props[i][1] = f->checkMonotoneness(i+1);
+		props[i][2] = f->checkLinearity(i+1);
+	}
+
+	file_output(out, header, task, props, num_arguments);
 	flushall();
 	getch();
 	return 0;
