@@ -1,0 +1,7 @@
+5 7
+  1 2 3 4 5 6 7
+A B A A E D E B
+B C C A B E C C
+C D D A A B D B
+D E E A E C A D
+E A B A B D B B
