@@ -201,7 +201,7 @@ void mod_pow(unsigned long a, unsigned long b, unsigned long c, char** buf){
 			d = (d*cura) % c;
 	}
 
-	sprintf(*buf, "Условие задачи: Найти d = %ul*%ul(mod %ul)\r\nd = %ul", a, b, c, d);
+	sprintf(*buf, "Условие задачи: Найти d = %ul^%ul(mod %ul)\r\nd = %ul", a, b, c, d);
 }
 
 int main(unsigned long argc, char** argv){
@@ -279,6 +279,9 @@ int main(unsigned long argc, char** argv){
 		break;
 	case 2:
 		mod_multiply(a, b, c, &buf);
+		break;
+	case 3:
+		mod_pow(a, b, c, &buf);
 		break;
 	default:
 		fail("Непредвиденная ошибка. С памятью играешься, паразит? :)");
